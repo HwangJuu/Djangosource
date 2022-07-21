@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>ToDo 앱</h1>
+      <p>
+        <a href="{% url 'todo_register' %}"><i class="bi-plus"></i>Add Todo</a>
+        <a
+          href="{% url 'done_list' %}"
+          class="btn btn-primary"
+          style="float: right"
+          >완료한 Todo 목록</a
+        >
+      </p>
+      <ul class="list-group">
+        {% for todo in todos %}
+
+        <li class="list-group-item">
+          <a href="{% url 'todo_detail' pk=todo.id%}">{{todo.title}}</a>
+
+          {% if todo.important %}
+          <span class="badge badge-danger">!</span>
+          {% endif %}
+
+          <div style="float: right">
+            <a href="{% url 'todo_done' pk=todo.id %}" class="btn btn-danger"
+              >완료</a
+            >
+            <a
+              href="{% url 'todo_edit' pk=todo.id %}"
+              class="btn btn-outline-primary"
+              >수정하기</a
+            >
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
