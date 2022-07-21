@@ -17,8 +17,10 @@ from . import views  # photo웹에 있는 views.py를 사용
 from django.urls import path
 
 urlpatterns = [
+    # name : 별칭을 의미. path가 바뀌더라도 별칭을 이용하면 수정을 덜 할수 있음.
     path("", views.photo_list, name="photo_list"),
     path("<int:pk>/", views.photo_detail, name="photo_detail"),
     path("new/", views.photo_post, name="photo_post"),
     path("<int:pk>/edit/", views.photo_edit, name="photo_edit"),
+    path("<int:pk>/remove/", views.photo_remove, name="photo_remove"),
 ]

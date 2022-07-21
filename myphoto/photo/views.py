@@ -1,4 +1,3 @@
-import re
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 
@@ -16,6 +15,7 @@ def photo_list(request):
     #             데이터 베이스 내용을 보낼 수 있음
     # Photo.objects.all() : Photo 테이블 내용 전체 조회
 
+    # photo 테이블을 전체 변수 받기
     photos = Photo.objects.all()
 
     return render(request, "photo/photo_list.html", {"photos": photos})
@@ -50,11 +50,22 @@ def photo_edit(request, pk):
 
     if request.method == "POST":
         form = PhotoForm(request.POST, instance=photo)
-        if form.is_valid():
+        if form.is_valid():  # 자동 유효성 검사(폼 안에 다 채워져 있는지)
             photo = form.save(commit=False)
-            photo.save()
-            return redirect("photo_detail", pk=photo.pk)
+            photo.save()  # 변경된 부분만 저장
+            return redirect("photo_detail", pk=photo.pk)  # 성공했다면 detail 페이지보여주기
     else:
         form = PhotoForm(instance=photo)
 
     return render(request, "photo/photo_post.html", {"form": form})
+
+
+def photo_remove(request, pk):
+    # pk에 해당하는 사진 찾기
+    photo = get_object_or_404(Photo, pk=pk)
+
+    # 삭제
+    photo.delete()
+
+    # 삭제 후 이동한 경로 (model의 name)
+    return redirect("photo_list")
